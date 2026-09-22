@@ -1,0 +1,15 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  background: #f5f5f7;
+  color: #1a1a1a;
+}
+
+.rmw-shape {
+  background-color: #e2e2e2;
+}

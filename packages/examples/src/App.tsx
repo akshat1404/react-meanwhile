@@ -3,6 +3,8 @@ import { ExampleSection } from './ExampleSection';
 import { ProfileCardExample, profileCardCode } from './examples/ProfileCardExample';
 import { DataTableExample, dataTableCode } from './examples/DataTableExample';
 import { ChatExample, chatCode } from './examples/ChatExample';
+import { GalleryExample, galleryCode } from './examples/GalleryExample';
+import { StatsWidgetsExample, statsWidgetsCode } from './examples/StatsWidgetsExample';
 
 interface ExampleConfig {
   id: string;
@@ -34,6 +36,21 @@ const examples: ExampleConfig[] = [
       'Bubbles of irregular width alternating left and right. One wrapper per message, each with its own cacheKey.',
     code: chatCode,
     render: (loading) => <ChatExample loading={loading} />,
+  },
+  {
+    id: 'gallery',
+    title: 'Image gallery',
+    description: 'A grid of image tiles, each with a two-line caption.',
+    code: galleryCode,
+    render: (loading) => <GalleryExample loading={loading} />,
+  },
+  {
+    id: 'stats',
+    title: 'Dashboard stats',
+    description:
+      'A row of compact widgets. One wrapper per stat box, each with its own cacheKey.',
+    code: statsWidgetsCode,
+    render: (loading) => <StatsWidgetsExample loading={loading} />,
   },
 ];
 

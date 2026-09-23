@@ -14,9 +14,12 @@ import 'react-meanwhile/styles.css';
 </SkeletonWrapper>;
 ```
 
+**Live examples:** https://akshat1404.github.io/react-meanwhile/
+
 ## Monorepo layout
 
 - `packages/react-meanwhile` — the published library (npm: `react-meanwhile`).
+- `packages/examples` — the public demo site, deployed to GitHub Pages.
 - `packages/playground` — a Vite app for manual/visual testing. Not published.
 
 See [CLAUDE.md](./CLAUDE.md) for architecture notes and known gotchas.

@@ -1,6 +1,7 @@
 {
   "name": "react-meanwhile-monorepo",
   "private": true,
+  "packageManager": "pnpm@12.5.1",
   "scripts": {
     "dev": "concurrently -n lib,playground -c blue,green \"pnpm --filter react-meanwhile dev\" \"pnpm --filter playground dev\"",
     "build": "pnpm --filter react-meanwhile build",

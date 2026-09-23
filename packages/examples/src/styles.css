@@ -144,15 +144,38 @@ a {
   overflow-x: auto;
 }
 
+.code-panel {
+  border-top: 1px solid var(--border);
+  background: var(--code-bg);
+}
+
+.code-label {
+  margin: 0;
+  padding: 10px 20px 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+summary.code-label {
+  cursor: pointer;
+  padding-bottom: 0;
+}
+
 .code {
   margin: 0;
-  padding: 14px 20px;
-  background: var(--code-bg);
-  border-top: 1px solid var(--border);
+  padding: 8px 20px 14px;
   font-family: var(--mono);
   font-size: 0.8rem;
   line-height: 1.6;
   overflow-x: auto;
+}
+
+.code--source {
+  max-height: 480px;
+  overflow: auto;
 }
 
 /* Profile card example */

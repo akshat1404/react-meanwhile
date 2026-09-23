@@ -4,6 +4,7 @@ interface ExampleSectionProps {
   title: string;
   description: string;
   code: string;
+  sourceCode: string;
   loading: boolean;
   onLoadingChange: (loading: boolean) => void;
   children: ReactNode;
@@ -13,6 +14,7 @@ export function ExampleSection({
   title,
   description,
   code,
+  sourceCode,
   loading,
   onLoadingChange,
   children,
@@ -34,9 +36,18 @@ export function ExampleSection({
         </label>
       </header>
       <div className="stage">{children}</div>
-      <pre className="code">
-        <code>{code}</code>
-      </pre>
+      <div className="code-panel">
+        <p className="code-label">Usage</p>
+        <pre className="code">
+          <code>{code}</code>
+        </pre>
+      </div>
+      <details className="code-panel" open>
+        <summary className="code-label">Component source</summary>
+        <pre className="code code--source">
+          <code>{sourceCode}</code>
+        </pre>
+      </details>
     </section>
   );
 }

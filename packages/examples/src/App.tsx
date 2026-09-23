@@ -5,12 +5,18 @@ import { DataTableExample, dataTableCode } from './examples/DataTableExample';
 import { ChatExample, chatCode } from './examples/ChatExample';
 import { GalleryExample, galleryCode } from './examples/GalleryExample';
 import { StatsWidgetsExample, statsWidgetsCode } from './examples/StatsWidgetsExample';
+import profileCardSource from './examples/ProfileCardExample.tsx?raw';
+import dataTableSource from './examples/DataTableExample.tsx?raw';
+import chatSource from './examples/ChatExample.tsx?raw';
+import gallerySource from './examples/GalleryExample.tsx?raw';
+import statsWidgetsSource from './examples/StatsWidgetsExample.tsx?raw';
 
 interface ExampleConfig {
   id: string;
   title: string;
   description: string;
   code: string;
+  sourceCode: string;
   render: (loading: boolean) => ReactNode;
 }
 
@@ -20,6 +26,7 @@ const examples: ExampleConfig[] = [
     title: 'Profile card',
     description: 'A rounded avatar next to stacked text — the classic card shape.',
     code: profileCardCode,
+    sourceCode: profileCardSource,
     render: (loading) => <ProfileCardExample loading={loading} />,
   },
   {
@@ -27,6 +34,7 @@ const examples: ExampleConfig[] = [
     title: 'Data table',
     description: 'Rows and columns — a grid of short text cells at varying widths.',
     code: dataTableCode,
+    sourceCode: dataTableSource,
     render: (loading) => <DataTableExample loading={loading} />,
   },
   {
@@ -35,6 +43,7 @@ const examples: ExampleConfig[] = [
     description:
       'Bubbles of irregular width alternating left and right. One wrapper per message, each with its own cacheKey.',
     code: chatCode,
+    sourceCode: chatSource,
     render: (loading) => <ChatExample loading={loading} />,
   },
   {
@@ -42,6 +51,7 @@ const examples: ExampleConfig[] = [
     title: 'Image gallery',
     description: 'A grid of image tiles, each with a two-line caption.',
     code: galleryCode,
+    sourceCode: gallerySource,
     render: (loading) => <GalleryExample loading={loading} />,
   },
   {
@@ -50,6 +60,7 @@ const examples: ExampleConfig[] = [
     description:
       'A row of compact widgets. One wrapper per stat box, each with its own cacheKey.',
     code: statsWidgetsCode,
+    sourceCode: statsWidgetsSource,
     render: (loading) => <StatsWidgetsExample loading={loading} />,
   },
 ];
@@ -87,6 +98,7 @@ export default function App() {
           title={example.title}
           description={example.description}
           code={example.code}
+          sourceCode={example.sourceCode}
           loading={loadingById[example.id]}
           onLoadingChange={(loading) =>
             setLoadingById((prev) => ({ ...prev, [example.id]: loading }))

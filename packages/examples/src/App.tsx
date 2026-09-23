@@ -1,10 +1,12 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import { ExampleSection } from './ExampleSection';
-import { ProfileCardExample, profileCardCode } from './examples/ProfileCardExample';
-import { DataTableExample, dataTableCode } from './examples/DataTableExample';
-import { ChatExample, chatCode } from './examples/ChatExample';
-import { GalleryExample, galleryCode } from './examples/GalleryExample';
-import { StatsWidgetsExample, statsWidgetsCode } from './examples/StatsWidgetsExample';
+import {
+  chatUsage,
+  dataTableUsage,
+  galleryUsage,
+  profileCardUsage,
+  statsWidgetsUsage,
+} from './usageSnippets';
 import profileCardSource from './examples/ProfileCardExample.tsx?raw';
 import dataTableSource from './examples/DataTableExample.tsx?raw';
 import chatSource from './examples/ChatExample.tsx?raw';
@@ -15,9 +17,8 @@ interface ExampleConfig {
   id: string;
   title: string;
   description: string;
-  code: string;
+  usageCode: string;
   sourceCode: string;
-  render: (loading: boolean) => ReactNode;
 }
 
 const examples: ExampleConfig[] = [
@@ -25,43 +26,38 @@ const examples: ExampleConfig[] = [
     id: 'profile-card',
     title: 'Profile card',
     description: 'A rounded avatar next to stacked text — the classic card shape.',
-    code: profileCardCode,
+    usageCode: profileCardUsage,
     sourceCode: profileCardSource,
-    render: (loading) => <ProfileCardExample loading={loading} />,
   },
   {
     id: 'data-table',
     title: 'Data table',
     description: 'Rows and columns — a grid of short text cells at varying widths.',
-    code: dataTableCode,
+    usageCode: dataTableUsage,
     sourceCode: dataTableSource,
-    render: (loading) => <DataTableExample loading={loading} />,
   },
   {
     id: 'chat',
     title: 'Chat thread',
     description:
       'Bubbles of irregular width alternating left and right. One wrapper per message, each with its own cacheKey.',
-    code: chatCode,
+    usageCode: chatUsage,
     sourceCode: chatSource,
-    render: (loading) => <ChatExample loading={loading} />,
   },
   {
     id: 'gallery',
     title: 'Image gallery',
     description: 'A grid of image tiles, each with a two-line caption.',
-    code: galleryCode,
+    usageCode: galleryUsage,
     sourceCode: gallerySource,
-    render: (loading) => <GalleryExample loading={loading} />,
   },
   {
     id: 'stats',
     title: 'Dashboard stats',
     description:
       'A row of compact widgets. One wrapper per stat box, each with its own cacheKey.',
-    code: statsWidgetsCode,
+    usageCode: statsWidgetsUsage,
     sourceCode: statsWidgetsSource,
-    render: (loading) => <StatsWidgetsExample loading={loading} />,
   },
 ];
 
@@ -83,6 +79,7 @@ export default function App() {
           Wrap any component in <code>SkeletonWrapper</code>. It measures the real
           rendered layout and shows a matching shimmer skeleton while{' '}
           <code>loading</code> is true — no skeleton markup to write or keep in sync.
+          Every example below is live: edit the code and watch the skeleton follow.
         </p>
         <div className="hero-actions">
           <button type="button" className="button" onClick={() => setAll(!allLoading)}>
@@ -97,15 +94,13 @@ export default function App() {
           key={example.id}
           title={example.title}
           description={example.description}
-          code={example.code}
+          usageCode={example.usageCode}
           sourceCode={example.sourceCode}
           loading={loadingById[example.id]}
           onLoadingChange={(loading) =>
             setLoadingById((prev) => ({ ...prev, [example.id]: loading }))
           }
-        >
-          {example.render(loadingById[example.id])}
-        </ExampleSection>
+        />
       ))}
     </main>
   );

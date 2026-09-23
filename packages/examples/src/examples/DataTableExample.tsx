@@ -1,9 +1,3 @@
-import { SkeletonWrapper } from 'react-meanwhile';
-
-export const dataTableCode = `<SkeletonWrapper loading={loading}>
-  <InvoiceTable rows={rows} />
-</SkeletonWrapper>`;
-
 const rows = [
   { id: 'INV-1042', customer: 'Northwind Traders', status: 'Paid', amount: '$2,400.00' },
   { id: 'INV-1043', customer: 'Acme Corp', status: 'Pending', amount: '$980.50' },
@@ -53,10 +47,14 @@ function InvoiceTable() {
   );
 }
 
-export function DataTableExample({ loading }: { loading: boolean }) {
+function DataTableExample() {
+  const loading = useLoading();
+
   return (
     <SkeletonWrapper loading={loading}>
       <InvoiceTable />
     </SkeletonWrapper>
   );
 }
+
+render(<DataTableExample />);

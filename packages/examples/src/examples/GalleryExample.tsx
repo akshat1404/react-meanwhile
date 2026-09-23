@@ -1,9 +1,3 @@
-import { SkeletonWrapper } from 'react-meanwhile';
-
-export const galleryCode = `<SkeletonWrapper loading={loading}>
-  <PhotoGrid photos={photos} />
-</SkeletonWrapper>`;
-
 const photos = [
   { id: 1, title: 'Alpine lake', meta: 'Maya · 2.1k likes', hue: 200 },
   { id: 2, title: 'Desert road', meta: 'Jonas · 980 likes', hue: 30 },
@@ -34,10 +28,14 @@ function PhotoGrid() {
   );
 }
 
-export function GalleryExample({ loading }: { loading: boolean }) {
+function GalleryExample() {
+  const loading = useLoading();
+
   return (
     <SkeletonWrapper loading={loading}>
       <PhotoGrid />
     </SkeletonWrapper>
   );
 }
+
+render(<GalleryExample />);

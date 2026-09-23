@@ -1,15 +1,3 @@
-import { SkeletonWrapper } from 'react-meanwhile';
-
-export const chatCode = `{messages.map((message) => (
-  <SkeletonWrapper
-    key={message.id}
-    loading={loading}
-    cacheKey={\`chat-message-\${message.id}\`}
-  >
-    <ChatMessage message={message} />
-  </SkeletonWrapper>
-))}`;
-
 interface Message {
   id: number;
   from: 'me' | 'them';
@@ -34,7 +22,9 @@ function ChatMessage({ message }: { message: Message }) {
   );
 }
 
-export function ChatExample({ loading }: { loading: boolean }) {
+function ChatExample() {
+  const loading = useLoading();
+
   return (
     <div className="chat">
       {messages.map((message) => (
@@ -49,3 +39,5 @@ export function ChatExample({ loading }: { loading: boolean }) {
     </div>
   );
 }
+
+render(<ChatExample />);

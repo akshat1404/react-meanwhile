@@ -1,15 +1,3 @@
-import { SkeletonWrapper } from 'react-meanwhile';
-
-export const statsWidgetsCode = `{stats.map((stat) => (
-  <SkeletonWrapper
-    key={stat.id}
-    loading={loading}
-    cacheKey={\`stat-\${stat.id}\`}
-  >
-    <StatBox stat={stat} />
-  </SkeletonWrapper>
-))}`;
-
 interface Stat {
   id: string;
   label: string;
@@ -39,7 +27,9 @@ function StatBox({ stat }: { stat: Stat }) {
   );
 }
 
-export function StatsWidgetsExample({ loading }: { loading: boolean }) {
+function StatsWidgetsExample() {
+  const loading = useLoading();
+
   return (
     <div className="stats">
       {stats.map((stat) => (
@@ -50,3 +40,5 @@ export function StatsWidgetsExample({ loading }: { loading: boolean }) {
     </div>
   );
 }
+
+render(<StatsWidgetsExample />);

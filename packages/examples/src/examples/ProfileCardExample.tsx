@@ -1,9 +1,3 @@
-import { SkeletonWrapper } from 'react-meanwhile';
-
-export const profileCardCode = `<SkeletonWrapper loading={loading}>
-  <ProfileCard user={user} />
-</SkeletonWrapper>`;
-
 function ProfileCard() {
   return (
     <div className="profile-card">
@@ -21,10 +15,14 @@ function ProfileCard() {
   );
 }
 
-export function ProfileCardExample({ loading }: { loading: boolean }) {
+function ProfileCardExample() {
+  const loading = useLoading();
+
   return (
     <SkeletonWrapper loading={loading}>
       <ProfileCard />
     </SkeletonWrapper>
   );
 }
+
+render(<ProfileCardExample />);

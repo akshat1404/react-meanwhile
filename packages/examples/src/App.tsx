@@ -1,6 +1,8 @@
 import { useState, type ReactNode } from 'react';
 import { ExampleSection } from './ExampleSection';
 import { ProfileCardExample, profileCardCode } from './examples/ProfileCardExample';
+import { DataTableExample, dataTableCode } from './examples/DataTableExample';
+import { ChatExample, chatCode } from './examples/ChatExample';
 
 interface ExampleConfig {
   id: string;
@@ -17,6 +19,21 @@ const examples: ExampleConfig[] = [
     description: 'A rounded avatar next to stacked text — the classic card shape.',
     code: profileCardCode,
     render: (loading) => <ProfileCardExample loading={loading} />,
+  },
+  {
+    id: 'data-table',
+    title: 'Data table',
+    description: 'Rows and columns — a grid of short text cells at varying widths.',
+    code: dataTableCode,
+    render: (loading) => <DataTableExample loading={loading} />,
+  },
+  {
+    id: 'chat',
+    title: 'Chat thread',
+    description:
+      'Bubbles of irregular width alternating left and right. One wrapper per message, each with its own cacheKey.',
+    code: chatCode,
+    render: (loading) => <ChatExample loading={loading} />,
   },
 ];
 

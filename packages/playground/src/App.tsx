@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SkeletonWrapper } from 'react-meanwhile';
+import { Meanwhile } from 'react-meanwhile';
 import { ProfileCard } from './fixtures/ProfileCard';
 import { TableFixture } from './fixtures/TableFixture';
 import { FormFixture } from './fixtures/FormFixture';
@@ -25,37 +25,37 @@ export default function App() {
 
       <div style={sectionStyle}>
         <h2>Profile card (render counter)</h2>
-        <SkeletonWrapper loading={loading}>
+        <Meanwhile type="skeleton" loading={loading}>
           <ProfileCard />
-        </SkeletonWrapper>
+        </Meanwhile>
       </div>
 
       <div style={sectionStyle}>
         <h2>Table</h2>
-        <SkeletonWrapper loading={loading}>
+        <Meanwhile type="skeleton" loading={loading}>
           <TableFixture />
-        </SkeletonWrapper>
+        </Meanwhile>
       </div>
 
       <div style={sectionStyle}>
         <h2>Form</h2>
-        <SkeletonWrapper loading={loading}>
+        <Meanwhile type="skeleton" loading={loading}>
           <FormFixture />
-        </SkeletonWrapper>
+        </Meanwhile>
       </div>
 
       <div style={sectionStyle}>
         <h2>Variable-height list</h2>
-        <SkeletonWrapper loading={loading}>
+        <Meanwhile type="skeleton" loading={loading}>
           <VariableHeightList />
-        </SkeletonWrapper>
+        </Meanwhile>
       </div>
 
       <div style={sectionStyle}>
         <h2>Mapped/conditional tags</h2>
-        <SkeletonWrapper loading={loading}>
+        <Meanwhile type="skeleton" loading={loading}>
           <TagList />
-        </SkeletonWrapper>
+        </Meanwhile>
       </div>
     </div>
   );

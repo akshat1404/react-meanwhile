@@ -22,9 +22,9 @@ const avatarStyle = {
 };
 
 /**
- * Mounts exactly once per page load if SkeletonWrapper is behaving —
+ * Mounts exactly once per page load if Meanwhile is behaving —
  * watch the console. If the count climbs every time `loading` toggles,
- * SkeletonWrapper is remounting real children on each cycle.
+ * Meanwhile is remounting real children on each cycle.
  */
 export function ProfileCard() {
   const renderCount = useRef(0);

@@ -1,4 +1,4 @@
-import type { ShapeDescriptor } from '../types';
+import type { ShapeDescriptor } from '../../types';
 
 interface ShapeRendererProps {
   shapes: ShapeDescriptor;

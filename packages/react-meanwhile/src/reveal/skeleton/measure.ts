@@ -1,4 +1,4 @@
-import type { Shape, ShapeDescriptor, ShapeType } from '../types';
+import type { Shape, ShapeDescriptor, ShapeType } from '../../types';
 
 const CIRCLE_ASPECT_TOLERANCE = 0.2;
 const CIRCLE_RADIUS_THRESHOLD = 0.4;

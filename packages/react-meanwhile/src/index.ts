@@ -1,3 +1,3 @@
-export { SkeletonWrapper } from './skeleton/SkeletonWrapper';
-export type { SkeletonWrapperProps } from './skeleton/SkeletonWrapper';
+export { Meanwhile } from './Meanwhile';
+export type { MeanwhileProps } from './Meanwhile';
 export type { Shape, ShapeType, ShapeDescriptor } from './types';

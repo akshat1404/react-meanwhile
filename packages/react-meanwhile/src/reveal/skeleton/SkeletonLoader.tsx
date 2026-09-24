@@ -4,7 +4,7 @@ import { getCachedShape, setCachedShape } from './cache';
 import './shimmer.css';
 import { ShapeRenderer } from './ShapeRenderer';
 
-export interface SkeletonWrapperProps {
+export interface SkeletonLoaderProps {
   loading: boolean;
   children: ReactNode;
   /**
@@ -51,7 +51,7 @@ function FallbackSkeleton() {
  * loading transition, would double-fire their effects (e.g. data fetches)
  * on each cycle. See the cache.ts gotcha in CLAUDE.md.
  */
-export function SkeletonWrapper({ loading, children, cacheKey }: SkeletonWrapperProps) {
+export function SkeletonLoader({ loading, children, cacheKey }: SkeletonLoaderProps) {
   const key = cacheKey ?? deriveCacheKey(children);
   const containerRef = useRef<HTMLDivElement>(null);
   const [cached, setCached] = useState(() => getCachedShape(key));

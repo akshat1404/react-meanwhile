@@ -1,4 +1,4 @@
-import type { CachedMeasurement } from '../types';
+import type { CachedMeasurement } from '../../types';
 
 const shapeCache = new Map<string, CachedMeasurement>();
 

@@ -76,7 +76,7 @@ export default function App() {
       <header className="hero">
         <h1>react-meanwhile</h1>
         <p className="muted">
-          Wrap any component in <code>SkeletonWrapper</code>. It measures the real
+          Wrap any component in <code>Meanwhile</code>. It measures the real
           rendered layout and shows a matching shimmer skeleton while{' '}
           <code>loading</code> is true — no skeleton markup to write or keep in sync.
           Every example below is live: edit the code and watch the skeleton follow.

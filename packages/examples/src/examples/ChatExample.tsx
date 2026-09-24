@@ -28,13 +28,14 @@ function ChatExample() {
   return (
     <div className="chat">
       {messages.map((message) => (
-        <SkeletonWrapper
+        <Meanwhile
           key={message.id}
+          type="skeleton"
           loading={loading}
           cacheKey={`chat-message-${message.id}`}
         >
           <ChatMessage message={message} />
-        </SkeletonWrapper>
+        </Meanwhile>
       ))}
     </div>
   );

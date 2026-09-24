@@ -1,31 +1,33 @@
-export const profileCardUsage = `<SkeletonWrapper loading={loading}>
+export const profileCardUsage = `<Meanwhile type="skeleton" loading={loading}>
   <ProfileCard user={user} />
-</SkeletonWrapper>`;
+</Meanwhile>`;
 
-export const dataTableUsage = `<SkeletonWrapper loading={loading}>
+export const dataTableUsage = `<Meanwhile type="skeleton" loading={loading}>
   <InvoiceTable rows={rows} />
-</SkeletonWrapper>`;
+</Meanwhile>`;
 
 export const chatUsage = `{messages.map((message) => (
-  <SkeletonWrapper
+  <Meanwhile
     key={message.id}
+    type="skeleton"
     loading={loading}
     cacheKey={\`chat-message-\${message.id}\`}
   >
     <ChatMessage message={message} />
-  </SkeletonWrapper>
+  </Meanwhile>
 ))}`;
 
-export const galleryUsage = `<SkeletonWrapper loading={loading}>
+export const galleryUsage = `<Meanwhile type="skeleton" loading={loading}>
   <PhotoGrid photos={photos} />
-</SkeletonWrapper>`;
+</Meanwhile>`;
 
 export const statsWidgetsUsage = `{stats.map((stat) => (
-  <SkeletonWrapper
+  <Meanwhile
     key={stat.id}
+    type="skeleton"
     loading={loading}
     cacheKey={\`stat-\${stat.id}\`}
   >
     <StatBox stat={stat} />
-  </SkeletonWrapper>
+  </Meanwhile>
 ))}`;

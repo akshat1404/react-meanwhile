@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { SkeletonWrapper, type SkeletonWrapperProps } from 'react-meanwhile';
+import { Meanwhile, type MeanwhileProps } from 'react-meanwhile';
 import { themes } from 'prism-react-renderer';
 
 interface PreviewState {
@@ -15,20 +15,20 @@ export function useLoading(): boolean {
 }
 
 /**
- * The real SkeletonWrapper, with the current code's hash folded into its
+ * The real Meanwhile, with the current code's hash folded into its
  * cacheKey. Editing the code changes the hash, so a skeleton measured from
  * an earlier version of the code is never reused for the edited one.
  */
-export function LiveSkeletonWrapper({ cacheKey, ...props }: SkeletonWrapperProps) {
+export function LiveMeanwhile({ cacheKey, ...props }: MeanwhileProps) {
   const { codeHash } = useContext(PreviewContext);
-  return <SkeletonWrapper {...props} cacheKey={`live-${codeHash}:${cacheKey ?? 'default'}`} />;
+  return <Meanwhile {...props} cacheKey={`live-${codeHash}:${cacheKey ?? 'default'}`} />;
 }
 
 // Must stay referentially stable: react-live re-evaluates (and remounts) the
 // preview whenever `scope` changes identity.
 export const liveScope = {
   React,
-  SkeletonWrapper: LiveSkeletonWrapper,
+  Meanwhile: LiveMeanwhile,
   useLoading,
 };
 

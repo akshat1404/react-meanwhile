@@ -19,9 +19,9 @@ function ProfileCardExample() {
   const loading = useLoading();
 
   return (
-    <SkeletonWrapper loading={loading}>
+    <Meanwhile type="skeleton" loading={loading}>
       <ProfileCard />
-    </SkeletonWrapper>
+    </Meanwhile>
   );
 }
 

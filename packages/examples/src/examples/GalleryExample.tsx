@@ -32,9 +32,9 @@ function GalleryExample() {
   const loading = useLoading();
 
   return (
-    <SkeletonWrapper loading={loading}>
+    <Meanwhile type="skeleton" loading={loading}>
       <PhotoGrid />
-    </SkeletonWrapper>
+    </Meanwhile>
   );
 }
 

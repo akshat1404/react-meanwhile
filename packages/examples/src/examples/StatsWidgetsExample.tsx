@@ -33,9 +33,14 @@ function StatsWidgetsExample() {
   return (
     <div className="stats">
       {stats.map((stat) => (
-        <SkeletonWrapper key={stat.id} loading={loading} cacheKey={`stat-${stat.id}`}>
+        <Meanwhile
+          key={stat.id}
+          type="skeleton"
+          loading={loading}
+          cacheKey={`stat-${stat.id}`}
+        >
           <StatBox stat={stat} />
-        </SkeletonWrapper>
+        </Meanwhile>
       ))}
     </div>
   );

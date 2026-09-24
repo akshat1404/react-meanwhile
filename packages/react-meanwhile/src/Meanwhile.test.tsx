@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { useEffect } from 'react';
 import { Meanwhile } from './Meanwhile';
 import { skeletonCache } from './reveal/skeleton/SkeletonLoader';
+import { spinnerCache } from './reveal/spinner/SpinnerLoader';
 
 interface Box {
   left: number;
@@ -53,6 +54,7 @@ const shapes = (container: HTMLElement) => container.querySelectorAll('.rmw-shap
 afterEach(() => {
   vi.restoreAllMocks();
   skeletonCache.clear();
+  spinnerCache.clear();
 });
 
 describe('<Meanwhile type="skeleton">', () => {
@@ -131,6 +133,134 @@ describe('<Meanwhile type="skeleton">', () => {
     for (const loading of [false, true, false, true]) {
       rerender(
         <Meanwhile type="skeleton" loading={loading} cacheKey="probe">
+          <Probe />
+        </Meanwhile>,
+      );
+    }
+
+    expect(onMount).toHaveBeenCalledTimes(1);
+  });
+});
+
+const placeholder = (container: HTMLElement) =>
+  container.querySelector<HTMLElement>('.rmw-spinner-box');
+
+describe('<Meanwhile type="spinner">', () => {
+  it('renders children and no spinner when not loading', () => {
+    mockLayout();
+    const { container } = render(
+      <Meanwhile type="spinner" loading={false} cacheKey="spinner-idle">
+        <Card />
+      </Meanwhile>,
+    );
+
+    expect(screen.getByText('Title')).toBeVisible();
+    expect(placeholder(container)).toBeNull();
+    expect(container.querySelector('.rmw-spinner')).toBeNull();
+  });
+
+  it('renders a placeholder matching the measured bounds, with the spinner inside, while loading', () => {
+    mockLayout();
+    const { container } = render(
+      <Meanwhile type="spinner" loading cacheKey="spinner-measured">
+        <Card />
+      </Meanwhile>,
+    );
+
+    const box = placeholder(container);
+    expect(box).not.toBeNull();
+    expect(box!.style.width).toBe('200px');
+    expect(box!.style.height).toBe('80px');
+    expect(box!.querySelector('.rmw-spinner')).not.toBeNull();
+    expect(screen.getByText('Title').closest('[style*="visibility: hidden"]')).not.toBeNull();
+  });
+
+  it('reuses the last measured bounds while loading without re-measuring', () => {
+    mockLayout();
+    render(
+      <Meanwhile type="spinner" loading={false} cacheKey="spinner-cached">
+        <Card />
+      </Meanwhile>,
+    ).unmount();
+
+    vi.restoreAllMocks();
+    mockZeroLayout();
+    const { container } = render(
+      <Meanwhile type="spinner" loading cacheKey="spinner-cached">
+        <Card />
+      </Meanwhile>,
+    );
+
+    const box = placeholder(container);
+    expect(box!.style.width).toBe('200px');
+    expect(box!.style.height).toBe('80px');
+  });
+
+  it('falls back to a 120x40 box on a first-ever loading render with nothing cached', () => {
+    mockZeroLayout();
+    const { container } = render(
+      <Meanwhile type="spinner" loading cacheKey="spinner-first">
+        <Card />
+      </Meanwhile>,
+    );
+
+    const box = placeholder(container);
+    expect(box!.style.width).toBe('120px');
+    expect(box!.style.height).toBe('40px');
+    expect(box!.querySelector('.rmw-spinner')).not.toBeNull();
+  });
+
+  it('keeps its cache separate from the skeleton loader for the same cacheKey', () => {
+    mockLayout();
+    render(
+      <Meanwhile type="skeleton" loading={false} cacheKey="shared-key">
+        <Card />
+      </Meanwhile>,
+    ).unmount();
+
+    vi.restoreAllMocks();
+    mockZeroLayout();
+    const { container } = render(
+      <Meanwhile type="spinner" loading cacheKey="shared-key">
+        <Card />
+      </Meanwhile>,
+    );
+
+    expect(placeholder(container)!.style.width).toBe('120px');
+  });
+
+  it('passes size and color through to the spinner', () => {
+    mockLayout();
+    const { container } = render(
+      <Meanwhile type="spinner" loading size={40} color="rgb(255, 0, 0)" cacheKey="spinner-props">
+        <Card />
+      </Meanwhile>,
+    );
+
+    const ring = container.querySelector<HTMLElement>('.rmw-spinner')!;
+    expect(ring.style.width).toBe('40px');
+    expect(ring.style.height).toBe('40px');
+    expect(ring.style.borderColor).not.toBe('');
+  });
+
+  it('mounts children once regardless of how often loading toggles', () => {
+    mockLayout();
+    const onMount = vi.fn();
+    function Probe() {
+      useEffect(() => {
+        onMount();
+      }, []);
+      return <p>probe</p>;
+    }
+
+    const { rerender } = render(
+      <Meanwhile type="spinner" loading cacheKey="spinner-probe">
+        <Probe />
+      </Meanwhile>,
+    );
+    for (const loading of [false, true, false, true]) {
+      rerender(
+        <Meanwhile type="spinner" loading={loading} cacheKey="spinner-probe">
           <Probe />
         </Meanwhile>,
       );

@@ -1,33 +1,39 @@
 # react-meanwhile
 
-Auto-generating loaders for React. `SkeletonWrapper` measures a wrapped
-component's real rendered layout and shows a matching shimmer skeleton
-while `loading` is true — no hand-drawn skeleton markup to keep in sync
+Auto-generating loaders for React. `<Meanwhile type="skeleton">` measures a
+wrapped component's real rendered layout and shows a matching shimmer
+skeleton while `loading` is true — no hand-drawn skeleton markup to keep in sync
 with your real UI.
 
 ```tsx
-import { SkeletonWrapper } from 'react-meanwhile';
+import { Meanwhile } from 'react-meanwhile';
 import 'react-meanwhile/styles.css';
 
-<SkeletonWrapper loading={isLoading}>
+<Meanwhile type="skeleton" loading={isLoading}>
   <ProfileCard user={user} />
-</SkeletonWrapper>;
+</Meanwhile>;
 ```
 
 **Live examples:** https://akshat1404.github.io/react-meanwhile/
 
+More loader types are planned under the same `<Meanwhile type="...">` API.
+Only `type="skeleton"` exists today.
+
 ## Loaders
 
-`SkeletonWrapper` is the first loader. Future versions will add others
-(spinners, progressive blur).
+`<Meanwhile>` is the single entry point for every loader; `type` selects
+which one. `skeleton` is the only type implemented so far. Spinners and
+progressive blur are planned, as are producer-driven loaders that take an
+explicit progress value instead of `loading` (not built yet).
 
-### `SkeletonWrapper`
+### `type="skeleton"`
 
-| Prop       | Type        | Description                                                                 |
-| ---------- | ----------- | --------------------------------------------------------------------------- |
-| `loading`  | `boolean`   | Show the skeleton while `true`, the real content while `false`.             |
-| `children` | `ReactNode` | The real content. It is measured once rendered and stays mounted throughout. |
-| `cacheKey` | `string?`   | Identity of the measured shape. Defaults to the child component's name.     |
+| Prop       | Type         | Description                                                                  |
+| ---------- | ------------ | ---------------------------------------------------------------------------- |
+| `type`     | `'skeleton'` | Selects the skeleton loader.                                                 |
+| `loading`  | `boolean`    | Show the skeleton while `true`, the real content while `false`.              |
+| `children` | `ReactNode`  | The real content. It is measured once rendered and stays mounted throughout. |
+| `cacheKey` | `string?`    | Identity of the measured shape. Defaults to the child component's name.      |
 
 How it works: the children always stay mounted and are only hidden while
 `loading` is true, so their effects (e.g. data fetches) fire once, not on
@@ -58,13 +64,14 @@ wrapper an explicit key:
 
 ```tsx
 {messages.map((message) => (
-  <SkeletonWrapper
+  <Meanwhile
     key={message.id}
+    type="skeleton"
     loading={isLoading}
     cacheKey={`chat-message-${message.id}`}
   >
     <ChatMessage message={message} />
-  </SkeletonWrapper>
+  </Meanwhile>
 ))}
 ```
 

@@ -1,7 +1,7 @@
 {
   "name": "react-meanwhile",
   "version": "0.1.0",
-  "description": "Auto-generating loaders for React. Wrap any component with SkeletonWrapper to get a shimmer skeleton matching its real measured layout.",
+  "description": "Auto-generating loaders for React. Wrap any component in Meanwhile to get a shimmer skeleton matching its real measured layout.",
   "type": "module",
   "sideEffects": false,
   "files": ["dist"],

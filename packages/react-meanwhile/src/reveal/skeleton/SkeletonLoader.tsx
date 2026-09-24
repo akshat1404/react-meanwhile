@@ -1,8 +1,12 @@
-import { isValidElement, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import { measure } from './measure';
-import { getCachedShape, setCachedShape } from './cache';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { measureContainer } from '../shared/measure';
+import { createShapeCache } from '../shared/cache';
+import { deriveCacheKey, hiddenContainerStyle } from '../shared/utils';
+import type { CachedMeasurement } from '../../types';
 import './shimmer.css';
 import { ShapeRenderer } from './ShapeRenderer';
+
+export const skeletonCache = createShapeCache<CachedMeasurement>();
 
 export interface SkeletonLoaderProps {
   loading: boolean;
@@ -14,24 +18,6 @@ export interface SkeletonLoaderProps {
    * (e.g. including an id) to keep each instance's measured shape separate.
    */
   cacheKey?: string;
-}
-
-const hiddenContainerStyle: CSSProperties = {
-  visibility: 'hidden',
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  pointerEvents: 'none',
-};
-
-function deriveCacheKey(children: ReactNode): string {
-  if (isValidElement(children)) {
-    const type = children.type;
-    if (typeof type === 'string') return type;
-    const named = type as { displayName?: string; name?: string };
-    return named.displayName ?? named.name ?? 'anonymous';
-  }
-  return 'fragment';
 }
 
 function FallbackSkeleton() {
@@ -49,24 +35,23 @@ function FallbackSkeleton() {
  * `loading` — only visibility toggles. This is deliberate: mounting the
  * real children to measure them, then unmounting/remounting on every
  * loading transition, would double-fire their effects (e.g. data fetches)
- * on each cycle. See the cache.ts gotcha in CLAUDE.md.
+ * on each cycle. See the cache gotcha in CLAUDE.md.
  */
 export function SkeletonLoader({ loading, children, cacheKey }: SkeletonLoaderProps) {
   const key = cacheKey ?? deriveCacheKey(children);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [cached, setCached] = useState(() => getCachedShape(key));
+  const [cached, setCached] = useState(() => skeletonCache.get(key));
 
   useLayoutEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const rect = container.getBoundingClientRect();
-    if (rect.width === 0 && rect.height === 0) return;
+    const { shape, bounds } = measureContainer(container);
+    if (bounds.width === 0 && bounds.height === 0) return;
 
-    const shapes = measure(container);
-    const measurement = { shapes, width: rect.width, height: rect.height };
+    const measurement = { shapes: shape, width: bounds.width, height: bounds.height };
 
-    setCachedShape(key, measurement);
+    skeletonCache.set(key, measurement);
     setCached(measurement);
   }, [key, children]);
 

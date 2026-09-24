@@ -48,12 +48,18 @@ function textBarHeight(el: Element, rect: DOMRect): number {
   return Math.round(rect.height);
 }
 
+export interface ContainerMeasurement {
+  shape: ShapeDescriptor;
+  bounds: { width: number; height: number };
+}
+
 /**
- * Walks the rendered DOM subtree of `container` and produces a flat shape
- * descriptor for every leaf element (text bars, rects, circles), positioned
- * relative to the container's top-left corner.
+ * Measures a rendered container. `shape` is a flat descriptor for every leaf
+ * element (text bars, rects, circles) positioned relative to the container's
+ * top-left corner; `bounds` is the container's own bounding box, read
+ * directly rather than derived from the leaves.
  */
-export function measure(container: HTMLElement): ShapeDescriptor {
+export function measureContainer(container: HTMLElement): ContainerMeasurement {
   const containerRect = container.getBoundingClientRect();
   const shapes: Shape[] = [];
 
@@ -80,5 +86,8 @@ export function measure(container: HTMLElement): ShapeDescriptor {
     node = walker.nextNode() as Element | null;
   }
 
-  return shapes;
+  return {
+    shape: shapes,
+    bounds: { width: containerRect.width, height: containerRect.height },
+  };
 }

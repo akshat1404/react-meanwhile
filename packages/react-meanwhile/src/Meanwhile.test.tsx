@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { useEffect } from 'react';
 import { Meanwhile } from './Meanwhile';
-import { clearShapeCache } from './reveal/skeleton/cache';
+import { skeletonCache } from './reveal/skeleton/SkeletonLoader';
 
 interface Box {
   left: number;
@@ -52,7 +52,7 @@ const shapes = (container: HTMLElement) => container.querySelectorAll('.rmw-shap
 
 afterEach(() => {
   vi.restoreAllMocks();
-  clearShapeCache();
+  skeletonCache.clear();
 });
 
 describe('<Meanwhile type="skeleton">', () => {

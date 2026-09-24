@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { measure } from './measure';
+import { measureContainer } from './measure';
 
 interface RectInput {
   left: number;
@@ -37,7 +37,7 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-describe('measure', () => {
+describe('measureContainer shape', () => {
   it('measures a text leaf relative to the container', () => {
     const container = document.createElement('div');
     const paragraph = document.createElement('p');
@@ -52,7 +52,7 @@ describe('measure', () => {
       borderRadius: '0px',
     } as CSSStyleDeclaration);
 
-    const shapes = measure(container);
+    const shapes = measureContainer(container).shape;
 
     expect(shapes).toEqual([{ x: 10, y: 10, width: 150, height: 20, type: 'text' }]);
   });
@@ -70,7 +70,7 @@ describe('measure', () => {
       borderRadius: '20px',
     } as CSSStyleDeclaration);
 
-    const shapes = measure(container);
+    const shapes = measureContainer(container).shape;
 
     expect(shapes).toEqual([{ x: 0, y: 0, width: 40, height: 40, type: 'circle' }]);
   });
@@ -88,7 +88,7 @@ describe('measure', () => {
       borderRadius: '0px',
     } as CSSStyleDeclaration);
 
-    const shapes = measure(container);
+    const shapes = measureContainer(container).shape;
 
     expect(shapes).toEqual([{ x: 5, y: 5, width: 100, height: 30, type: 'rect' }]);
   });
@@ -106,7 +106,7 @@ describe('measure', () => {
       borderRadius: '0px',
     } as CSSStyleDeclaration);
 
-    const shapes = measure(container);
+    const shapes = measureContainer(container).shape;
 
     expect(shapes).toEqual([]);
   });
@@ -133,9 +133,68 @@ describe('measure', () => {
       borderRadius: '0px',
     } as CSSStyleDeclaration);
 
-    const shapes = measure(container);
+    const shapes = measureContainer(container).shape;
 
     expect(shapes).toHaveLength(1);
     expect(shapes[0]).toMatchObject({ type: 'text', width: 40 });
+  });
+});
+
+describe('measureContainer bounds', () => {
+  it("reads the container's own bounding rect", () => {
+    const container = document.createElement('div');
+    const child = document.createElement('span');
+    child.textContent = 'x';
+    container.appendChild(child);
+    document.body.appendChild(container);
+
+    mockRects(new Map([[child, { left: 10, top: 10, width: 30, height: 20 }]]), {
+      left: 0,
+      top: 0,
+      width: 240,
+      height: 96,
+    });
+
+    expect(measureContainer(container).bounds).toEqual({ width: 240, height: 96 });
+  });
+
+  it('does not derive bounds from the leaf rects', () => {
+    const container = document.createElement('div');
+    const child = document.createElement('div');
+    container.appendChild(child);
+    document.body.appendChild(container);
+
+    mockRects(new Map([[child, { left: 0, top: 0, width: 10, height: 10 }]]), {
+      left: 0,
+      top: 0,
+      width: 300,
+      height: 150,
+    });
+
+    const { bounds, shape } = measureContainer(container);
+
+    expect(shape).toHaveLength(1);
+    expect(bounds).toEqual({ width: 300, height: 150 });
+  });
+
+  it('reports the container bounds even when there are no leaves to draw', () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
+    mockRects(new Map(), { left: 5, top: 5, width: 120, height: 40 });
+
+    expect(measureContainer(container)).toEqual({
+      shape: [],
+      bounds: { width: 120, height: 40 },
+    });
+  });
+
+  it('reports zero bounds under JSDOM-style zero layout', () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
+    mockRects(new Map(), { left: 0, top: 0, width: 0, height: 0 });
+
+    expect(measureContainer(container).bounds).toEqual({ width: 0, height: 0 });
   });
 });
